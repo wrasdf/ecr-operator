@@ -11,14 +11,19 @@ spec:
     singular: ecr
     kind: ECR
     shortNames:
-    - ecr
-    - ecrs
+      - ecr
+      - ecrs
   versions:
     - name: v1beta1
       served: true
       storage: true
       subresources:
         status: {}
+      additionalPrinterColumns:
+        - name: ready
+          type: boolean
+          description: Readiness of the created resource
+          jsonPath: .status.ready
       schema:
         openAPIV3Schema:
           type: object

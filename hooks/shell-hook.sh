@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./helpers/ecr_helper.sh
+source /hooks/helpers/ecr_helper.sh
 
 if [[ $1 == "--config" ]] ; then
   cat <<EOF

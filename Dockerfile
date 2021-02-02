@@ -5,5 +5,6 @@ RUN apk add --no-cache \
     && pip3 install --upgrade pip \
     && pip3 install \
         awscli \
+        cfn-flip \
     && rm -rf /var/cache/apk/*
 ADD hooks /hooks
