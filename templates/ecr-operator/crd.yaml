@@ -10,8 +10,10 @@ spec:
     status: {}
   names:
     plural: ecrs
+    singular: ecr
     kind: ECR
     shortNames:
+    - ecr
     - ecrs
   versions:
     - name: v1alpha1
