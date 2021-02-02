@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 function createECR {
   local repo_name=$1
   echo "Add ECR Repo: $repo_name"
@@ -28,3 +30,5 @@ EOF
   cat /tmp/patch-${crd_name}.yaml
   # kubectl -n ${crd_namespace} patch ecrs ${crd_name} --patch "$(cat /tmp/patch-${crd_name}.yaml)"
 }
+
+# patchCRDStatus k8s/pe/delete-me-ecr

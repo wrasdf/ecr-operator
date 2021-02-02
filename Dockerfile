@@ -8,3 +8,4 @@ RUN apk add --no-cache \
         cfn-flip \
     && rm -rf /var/cache/apk/*
 ADD hooks /hooks
+ADD helpers /helpers
