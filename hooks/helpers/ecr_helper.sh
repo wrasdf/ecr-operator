@@ -1,18 +1,16 @@
-#!/usr/bin/env bash
-
-createECR() {
+function createECR {
   local repo_name=$1
   echo "Add ECR Repo: $repo_name"
   aws ecr describe-repositories --repository-names ${repo_name} || aws ecr create-repository --repository-name ${repo_name}
 }
 
-deleteECR() {
+function deleteECR {
   local repo_name=$1
   echo "Delete ECR Repo: $repo_name "
   aws ecr describe-repositories --repository-names ${repo_name} && aws ecr delete-repository --repository-name ${repo_name} --force
 }
 
-patchCRDStatus() {
+function patchCRDStatus {
   local repo_name=$1
   local crd_namespace=$(echo $repo_name |cut -f 2 -d "/")
   local crd_name=$(echo $repo_name |cut -f 3 -d "/")

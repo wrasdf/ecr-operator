@@ -20,10 +20,18 @@ spec:
       subresources:
         status: {}
       additionalPrinterColumns:
-        - name: ready
-          type: boolean
-          description: Readiness of the created resource
-          jsonPath: .status.ready
+        - jsonPath: .spec.ecrImageTagImmutability
+          description: |-
+            The configure of a repository to be immutable to prevent image tags from being overwritten.
+            See https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html
+          name: ecrImageTagImmutability
+          type: string
+        - jsonPath: .spec.ecrScanOnPush
+          description: |-
+            The configure of the image scan settings either for a new repository during creation or for an existing repository.
+            See https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
+          name: ecrScanOnPush
+          type: string
       schema:
         openAPIV3Schema:
           type: object
