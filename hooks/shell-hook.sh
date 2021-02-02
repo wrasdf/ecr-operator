@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source ./helpers/ecr_helper.sh
+
 if [[ $1 == "--config" ]] ; then
   cat <<EOF
 configVersion: v1
@@ -11,15 +13,22 @@ kubernetes:
       - Deleted
 EOF
 else
+
   type=$(jq -r '.[0].type' ${BINDING_CONTEXT_PATH})
-  if [[ $type == "Synchronization" ]] ; then
-    : handle existing objects
-    : jq '.[0].objects | ... '
-  fi
+  event=$(jq -r '.[0].watchEvent' ${BINDING_CONTEXT_PATH})
 
   if [[ $type == "Event" ]] ; then
+
+    namespace=$(jq -r '.[0].object.metadata.namespace' ${BINDING_CONTEXT_PATH})
     name=$(jq -r '.[0].object.metadata.name' ${BINDING_CONTEXT_PATH})
-    kind=$(jq -r '.[0].object.kind' ${BINDING_CONTEXT_PATH})
-    echo "${kind}/${name} object is added"
+
+    if [[ $event == "Added" ]]; then
+      createECR "k8s/${namespace}/${name}"
+    fi
+
+    if [[ $event == "Deleted" ]]; then
+      deleteECR "k8s/${namespace}/${name}"
+    fi
+
   fi
 fi

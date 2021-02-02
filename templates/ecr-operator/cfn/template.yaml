@@ -1,0 +1,53 @@
+---
+AWSTemplateFormatVersion: 2010-09-09
+Description: IAM role for ecr.afterpay.com
+Resources:
+  ThisRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: ecr-operator-<< .config.clusterName >>
+      Path: /k8s/<< .config.clusterName >>/kubesystem/
+      AssumeRolePolicyDocument:
+        Fn::Sub:
+          - |
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Action": [
+                            "sts:AssumeRoleWithWebIdentity"
+                        ],
+                        "Principal": {
+                            "Federated": "arn:aws:iam::${AWS::AccountId}:oidc-provider/oidc.eks.${AWS::Region}.amazonaws.com/id/${id}"
+                        },
+                        "Condition": {
+                            "StringEquals": {
+                                "oidc.eks.${AWS::Region}.amazonaws.com/id/${id}:aud": "sts.amazonaws.com",
+                                "oidc.eks.${AWS::Region}.amazonaws.com/id/${id}:sub": "system:serviceaccount:kube-system:ecr-operator"
+                            }
+                        }
+                    }
+                ]
+            }
+          -
+            id:
+              Fn::Select:
+                - 1
+                - Fn::Split:
+                    - "//"
+                    - Fn::Select:
+                        - 0
+                        - Fn::Split:
+                            - "."
+                            - Fn::ImportValue: EksCluster-Endpoint-<< .config.clusterName >>
+      Policies:
+        - PolicyName: ecr-operator-access
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+            - Effect: Allow
+              Action:
+              - ecr:*
+              Resource:
+                - !Sub arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/k8s/*

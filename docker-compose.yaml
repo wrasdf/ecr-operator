@@ -19,7 +19,7 @@ services:
     <<: *base
     build:
       context: .
-    entrypoint: bash
+    entrypoint: sh
 
   gomplate:
     <<: *base
