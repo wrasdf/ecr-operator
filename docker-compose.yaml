@@ -1,0 +1,45 @@
+---
+version: '3.7'
+
+x-base: &base
+  volumes:
+    - "$HOME/.aws:/root/.aws"
+    - "$HOME/.kube:/root/.kube"
+    - ".:/app"
+  working_dir: /app
+  ports:
+    - "8085:8085"
+  environment:
+    - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-ap-southeast-2}
+    - AWS_PROFILE
+
+services:
+
+  sh:
+    <<: *base
+    build:
+      context: .
+      target: builder
+    entrypoint: bash
+
+  gomplate:
+    <<: *base
+    image: hairyhenderson/gomplate:v3.8.0-alpine
+    entrypoint: gomplate
+
+  stackup:
+    <<: *base
+    image: realestate/stackup:1.7.0
+    entrypoint: stackup
+
+  kubectl:
+    <<: *base
+    image: ikerry/kubectl:v1.18.15
+    entrypoint: kubectl
+
+  release:
+    <<: *base
+    build:
+      context: .
+      target: release
+    image: ikerry/ecr-operator:${APP_TAG:-latest}

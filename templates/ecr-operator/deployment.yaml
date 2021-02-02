@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecr-operator
+  namespace: kube-system
+  labels:
+    repo: ecr-operator
+    addon: ecr-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      repo: ecr-operator
+      addon: ecr-operator
+  template:
+    metadata:
+      labels:
+        repo: ecr-operator
+        addon: ecr-operator
+    spec:
+      serviceAccountName: ecr-operator
+      containers:
+        - name: ecr-operator
+          imagePullPolicy: IfNotPresent
+          image: ikerry/ecr-operator:<< .config.ecrOperator.version >>
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
