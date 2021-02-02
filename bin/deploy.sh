@@ -21,4 +21,4 @@ then
   docker-compose run --rm stackup "ecr-operator-${cluster}" up -t ${overlayComponent}/cfn/template.yaml
 fi
 
-docker-compose run --rm kubectl apply -f ${overlayComponent} --dry-run=client
+docker-compose run --rm kubectl apply -f ${overlayComponent}

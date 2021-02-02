@@ -4,7 +4,7 @@ if [[ $1 == "--config" ]] ; then
   cat <<EOF
 configVersion: v1
 kubernetes:
-  - apiVersion: v1alpha1
+  - apiVersion: afterpay.com/v1beta1
     kind: ECR
     executeHookOnEvent:
       - Added

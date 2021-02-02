@@ -8,7 +8,7 @@ x-base: &base
     - ".:/app"
   working_dir: /app
   ports:
-    - "8085:8085"
+    - "9115:9115"
   environment:
     - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-ap-southeast-2}
     - AWS_PROFILE
@@ -19,7 +19,6 @@ services:
     <<: *base
     build:
       context: .
-      target: builder
     entrypoint: bash
 
   gomplate:
@@ -41,5 +40,4 @@ services:
     <<: *base
     build:
       context: .
-      target: release
     image: ikerry/ecr-operator:${APP_TAG:-latest}

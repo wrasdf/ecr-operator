@@ -1,5 +1,5 @@
 ---
-apiVersion: afterpay.com/v1alpha1
+apiVersion: afterpay.com/v1beta1
 kind: ECR
 metadata:
   name: delete-me-ecr
