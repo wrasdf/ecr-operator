@@ -24,6 +24,8 @@ spec:
         - name: ecr-operator
           imagePullPolicy: IfNotPresent
           image: ikerry/ecr-operator:<< .config.ecrOperator.version >>
+          ports:
+            - containerPort: 8085
           resources:
             limits:
               cpu: 100m
