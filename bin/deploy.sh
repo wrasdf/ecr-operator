@@ -2,17 +2,18 @@
 
 set -euo pipefail
 
-if [ "$#" -lt 1 ]; then
+if [ "$#" -lt 2 ]; then
   echo
-  echo "usage: ./bin/deploy.sh <cluster>"
-  echo "  ie. ./bin/deploy.sh alpha-apse2-v1"
+  echo "usage: ./bin/deploy.sh <cluster> <version>"
+  echo "  ie. ./bin/deploy.sh alpha-apse2-v1 v0.1.30"
   exit 255
 fi
 
 cluster=${1}
+version=${2}
 overlayComponent="_build/${cluster}/ecr-operator"
 
-./bin/compile.sh $cluster
+./bin/compile.sh $cluster $version
 
 # stackup cfn for component
 if [[ -f "${overlayComponent}/cfn/template.yaml" ]]

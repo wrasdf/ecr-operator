@@ -23,7 +23,7 @@ spec:
       containers:
         - name: ecr-operator
           imagePullPolicy: IfNotPresent
-          image: ikerry/ecr-operator:<< .config.ecrOperator.version >>
+          image: ikerry/ecr-operator:<< env.Getenv "version" "latest" >>
           ports:
             - containerPort: 9115
           resources:
