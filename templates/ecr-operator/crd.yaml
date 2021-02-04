@@ -21,7 +21,7 @@ spec:
         status: {}
       additionalPrinterColumns:
         - name: ecrImageTagImmutability
-          type: bool
+          type: string
           jsonPath: .spec.ecrImageTagImmutability
           description: |-
             The configure of a repository to be immutable to prevent image tags from being overwritten.
@@ -52,3 +52,4 @@ spec:
             status:
               description: Status defines the observed state of Ecr
               type: object
+              x-kubernetes-preserve-unknown-fields: true
