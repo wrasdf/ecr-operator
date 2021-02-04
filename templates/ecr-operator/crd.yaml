@@ -20,23 +20,27 @@ spec:
       subresources:
         status: {}
       additionalPrinterColumns:
-        - jsonPath: .spec.ecrImageTagImmutability
+        - name: ecrImageTagImmutability
+          type: bool
+          jsonPath: .spec.ecrImageTagImmutability
           description: |-
             The configure of a repository to be immutable to prevent image tags from being overwritten.
             See https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html
-          name: ecrImageTagImmutability
+        - name: ecrScanOnPush
           type: string
-        - jsonPath: .spec.ecrScanOnPush
+          jsonPath: .spec.ecrScanOnPush
           description: |-
             The configure of the image scan settings either for a new repository during creation or for an existing repository.
             See https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
-          name: ecrScanOnPush
-          type: string
+        - name: Age
+          type: date
+          jsonPath: .metadata.creationTimestamp
       schema:
         openAPIV3Schema:
           type: object
           properties:
             spec:
+              description: Spec defines the desired state of Ecr
               type: object
               properties:
                 ecrImageTagImmutability:
@@ -45,3 +49,6 @@ spec:
                   type: string
                 ecrPolicy:
                   type: string
+            status:
+              description: Status defines the observed state of Ecr
+              type: object

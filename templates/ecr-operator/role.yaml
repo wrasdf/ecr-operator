@@ -18,6 +18,7 @@ rules:
       - get
       - list
       - patch
+      - replace
       - update
       - watch
   - apiGroups:

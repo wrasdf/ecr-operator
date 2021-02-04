@@ -28,7 +28,25 @@ EOF
   echo $crd_name
   cat /tmp/patch-${crd_name}.json | cfn-flip > /tmp/patch-${crd_name}.yaml
   cat /tmp/patch-${crd_name}.yaml
-  # kubectl -n ${crd_namespace} patch ecrs ${crd_name} --patch "$(cat /tmp/patch-${crd_name}.yaml)"
+  # kubectl -n ${crd_namespace} patch ecrs ${crd_name} --type merge --patch "$(cat /tmp/patch-${crd_name}.yaml)"
 }
 
 # patchCRDStatus k8s/pe/delete-me-ecr
+
+# kubectl -n pe patch ecrs.afterpay.com delete-me-ecr --type='json' --patch '{".status": ""}'
+# kubectl -n pe patch ecrs.afterpay.com delete-me-ecr --type='json' -p='[{"op": "replace", "path": "/spec/ecrImageTagImmutability", "value":"false"}]'
+# kubectl -n pe patch ecrs.afterpay.com delete-me-ecr --type='json' -p='[{"op": "patch", "path": "/status", "value": {"newKey": "true"}}]'
+# kubectl -n pe patch ecrs.afterpay.com delete-me-ecr --type='json' -p='[{"op": "patch", "path": "/status", "value": {"newKey": "true"}}]'
+# kubectl -n pe patch ecrs.afterpay.com delete-me-ecr --type merge --patch "$(cat status.yaml)"
+# kubectl -n pe patch ecrs.afterpay.com delete-me-ecr --type merge --patch '{"status": {"newKey": "false"}}'
+
+
+
+
+
+
+
+
+
+
+asf
